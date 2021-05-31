@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.rsschool.android2021.utils.isItInt
 
 class FirstFragment : Fragment() {
 
@@ -35,18 +36,21 @@ class FirstFragment : Fragment() {
         val result = arguments?.getInt(PREVIOUS_RESULT_KEY)
         previousResult?.text = resources.getString(R.string.previous_result, result)
 
-        var min = 0
-        var max = 0
+        var min: Int
+        var max: Int
 
         generateButton?.setOnClickListener {
             if (minInput?.text?.isEmpty()!! || maxInput?.text?.isEmpty()!!) {
                 Toast.makeText(view.context, getString(R.string.empty_fields), Toast.LENGTH_SHORT).show()
-            } else if (maxInput?.text.toString().toInt() <= minInput?.text.toString().toInt()) {
-                Toast.makeText(view.context, getString(R.string.max_less_min), Toast.LENGTH_SHORT).show()
-            } else {
-                min = minInput?.text.toString().toInt()
-                max = maxInput?.text.toString().toInt()
-                (requireActivity() as MainActivity).openSecondFragment(min, max)
+            } else if (maxInput?.text.toString().isItInt(view.context) &&
+                minInput?.text.toString().isItInt(view.context)) {
+                if (maxInput?.text.toString().toInt() <= minInput?.text.toString().toInt()) {
+                    Toast.makeText(view.context, getString(R.string.max_less_min), Toast.LENGTH_SHORT).show()
+                } else {
+                    min = minInput?.text.toString().toInt()
+                    max = maxInput?.text.toString().toInt()
+                    (requireActivity() as MainActivity).openSecondFragment(min, max)
+                }
             }
         }
     }
