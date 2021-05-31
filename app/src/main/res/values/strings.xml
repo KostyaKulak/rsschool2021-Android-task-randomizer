@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">randomizer</string>
+    <string name="previous_result">Previous result: %d</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="generate">Generate</string>
+    <string name="max_less_min">Max value must be more than min value</string>
+    <string name="empty_fields">Please, fill both fields for min and max</string>
 </resources>

@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 class FirstFragment : Fragment() {
 
     private var generateButton: Button? = null
     private var previousResult: TextView? = null
+    private var minInput: EditText? = null
+    private var maxInput: EditText? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,15 +29,25 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         previousResult = view.findViewById(R.id.previous_result)
         generateButton = view.findViewById(R.id.generate)
+        minInput = view.findViewById(R.id.min_value)
+        maxInput = view.findViewById(R.id.max_value)
 
         val result = arguments?.getInt(PREVIOUS_RESULT_KEY)
-        previousResult?.text = "Previous result: ${result.toString()}"
+        previousResult?.text = resources.getString(R.string.previous_result, result)
 
-        // TODO: val min = ...
-        // TODO: val max = ...
+        var min = 0
+        var max = 0
 
         generateButton?.setOnClickListener {
-            // TODO: send min and max to the SecondFragment
+            if (minInput?.text?.isEmpty()!! || maxInput?.text?.isEmpty()!!) {
+                Toast.makeText(view.context, getString(R.string.empty_fields), Toast.LENGTH_SHORT).show()
+            } else if (maxInput?.text.toString().toInt() <= minInput?.text.toString().toInt()) {
+                Toast.makeText(view.context, getString(R.string.max_less_min), Toast.LENGTH_SHORT).show()
+            } else {
+                min = minInput?.text.toString().toInt()
+                max = maxInput?.text.toString().toInt()
+                (requireActivity() as MainActivity).openSecondFragment(min, max)
+            }
         }
     }
 
