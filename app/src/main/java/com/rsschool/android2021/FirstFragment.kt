@@ -1,5 +1,6 @@
 package com.rsschool.android2021
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ class FirstFragment : Fragment() {
     private var previousResult: TextView? = null
     private var minInput: EditText? = null
     private var maxInput: EditText? = null
-    private var listener: OpenFragment? = null
+    private var openFragmentListener: OpenFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +43,7 @@ class FirstFragment : Fragment() {
             val error = checkNumbers(minInput?.text.toString(), maxInput?.text.toString())
 
             if (error.isEmpty()) {
-                listener?.openSecondFragment(minInput?.text.toString().toInt(), minInput?.text.toString().toInt())
+                openFragmentListener?.openSecondFragment(minInput?.text.toString().toInt(), minInput?.text.toString().toInt())
             } else Toast.makeText(view.context, error, Toast.LENGTH_SHORT).show()
         }
 
@@ -62,6 +63,16 @@ class FirstFragment : Fragment() {
             getString(R.string.max_less_min)
         }
         else -> ""
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        openFragmentListener = context as? OpenFragment
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        openFragmentListener = null
     }
 
     companion object {

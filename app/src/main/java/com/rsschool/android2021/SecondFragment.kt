@@ -1,5 +1,6 @@
 package com.rsschool.android2021
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ class SecondFragment : Fragment() {
 
     private var backButton: Button? = null
     private var result: TextView? = null
+    private var openFragmentListener: OpenFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,12 +35,22 @@ class SecondFragment : Fragment() {
         result?.text = generate(min, max).toString()
 
         backButton?.setOnClickListener {
-            (requireActivity() as MainActivity).openFirstFragment(result?.text.toString().toInt())
+            openFragmentListener?.openFirstFragment(result?.text.toString().toInt())
         }
 
         activity?.onBackPressedDispatcher?.addCallback {
-            (requireActivity() as MainActivity).openFirstFragment(result?.text.toString().toInt())
+            openFragmentListener?.openFirstFragment(result?.text.toString().toInt())
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        openFragmentListener = context as? OpenFragment
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        openFragmentListener = null
     }
 
     private fun generate(min: Int, max: Int): Int {
