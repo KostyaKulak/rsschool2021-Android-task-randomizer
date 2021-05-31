@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 
 class SecondFragment : Fragment() {
@@ -32,7 +33,12 @@ class SecondFragment : Fragment() {
         result?.text = generate(min, max).toString()
 
         backButton?.setOnClickListener {
-            (requireActivity() as MainActivity).openFirstFragment(result?.text.toString().toInt())        }
+            (requireActivity() as MainActivity).openFirstFragment(result?.text.toString().toInt())
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback {
+            (requireActivity() as MainActivity).openFirstFragment(result?.text.toString().toInt())
+        }
     }
 
     private fun generate(min: Int, max: Int): Int {
