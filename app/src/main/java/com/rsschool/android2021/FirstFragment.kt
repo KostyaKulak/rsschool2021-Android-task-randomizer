@@ -43,7 +43,10 @@ class FirstFragment : Fragment() {
             val error = checkNumbers(minInput?.text.toString(), maxInput?.text.toString())
 
             if (error.isEmpty()) {
-                openFragmentListener?.openSecondFragment(minInput?.text.toString().toInt(), minInput?.text.toString().toInt())
+                openFragmentListener?.openSecondFragment(
+                    minInput?.text.toString().toInt(),
+                    maxInput?.text.toString().toInt()
+                )
             } else Toast.makeText(view.context, error, Toast.LENGTH_SHORT).show()
         }
 
